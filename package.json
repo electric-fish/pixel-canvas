@@ -18,5 +18,23 @@
   "bugs": {
     "url": "https://github.com/elchangtw/pixel-canvas/issues"
   },
-  "homepage": "https://github.com/elchangtw/pixel-canvas#readme"
+  "homepage": "https://github.com/elchangtw/pixel-canvas#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "nodemon": "^2.0.2",
+    "style-loader": "^1.1.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
 }
