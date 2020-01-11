@@ -1,0 +1,22 @@
+{
+  "name": "pixel-canvas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./server/index.js",
+  "scripts": {
+    "start": "node ./server/index.js",
+    "build": "webpack -p",
+    "dev:server": "nodemon ./server/index.js",
+    "dev:build": "webpack -d -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elchangtw/pixel-canvas.git"
+  },
+  "author": "fish",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elchangtw/pixel-canvas/issues"
+  },
+  "homepage": "https://github.com/elchangtw/pixel-canvas#readme"
+}
