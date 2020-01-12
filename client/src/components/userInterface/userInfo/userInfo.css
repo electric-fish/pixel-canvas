@@ -1,0 +1,46 @@
+.header {
+  font-family: 'Roboto Slab', serif;
+  font-size: 20px;
+}
+
+.username_display {
+  padding: 20px 20px 15px 20px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+}
+
+.form {
+  padding-bottom: 5px;
+  font-size: 13px;
+}
+
+.textarea {
+  background-color: rgba(67, 2, 83, 0.233);
+  color: white;
+  width: 70%;
+  padding: 5px 5px 5px 5px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.button {
+  background-color: #607D8B;
+  color: white;
+  padding: 7px 7px 7px 7px;
+  border-radius: 5px;
+  margin: 8px 0;
+  width: 25%;
+  border: none;
+  cursor: pointer;
+  /* width: 50px; */
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.hr {
+  border: 1px solid rgb(104, 104, 104);
+}
