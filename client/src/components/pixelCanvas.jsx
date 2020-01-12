@@ -6,7 +6,7 @@ import CanvasInterface from "./canvas/canvasInterface.jsx";
 // const server_url = 'http://localhost:3000/';
 
 class PixelCanvas extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       canvas_data: [],
@@ -15,7 +15,7 @@ class PixelCanvas extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
   }
 
   render () {
