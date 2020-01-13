@@ -3,12 +3,14 @@ import styles from "./canvasInterface.css";
 
 import { canvasFunctions } from "./canvasFunctions.jsx";
 
-const N = 4; //row length
+const N = 100; //row length
+var ratio = 800 / N;
 
 class CanvasInterface extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      canvas_data: [],
     }
     this.zoomHandler = this.zoomHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
@@ -17,7 +19,7 @@ class CanvasInterface extends React.Component {
   componentDidMount () {
     var ctx = document.getElementById('canvas').getContext('2d');
 
-    var imageData = new ImageData(4, 4);
+    var imageData = new ImageData(N, N);
     var data = imageData.data;
     var setCanvas = (data) => {
     // data represents the Uint8ClampedArray containing the data
@@ -48,6 +50,7 @@ class CanvasInterface extends React.Component {
   }
 
   clickHandler (event) {
+
     // console.log(canvasFunctions);
     const RGBA = canvasFunctions.hexToRBGA(this.props.colorHex);
     console.log(this.props.colorHex);
@@ -60,8 +63,8 @@ class CanvasInterface extends React.Component {
     console.log("x: " + x + " y: " + y);
 
     // get coordinates
-    x = Math.floor(x / 100);
-    y = Math.floor(y / 100);
+    x = Math.floor(x / ratio);
+    y = Math.floor(y / ratio);
     console.log("x: " + x + " y: " + y);
 
     var ctx = canvas.getContext('2d');
