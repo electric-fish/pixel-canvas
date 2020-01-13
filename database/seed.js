@@ -17,8 +17,8 @@ client.connect( (err) => {
 
   var canvasData = [];
   var generateCanvas = () => {
-    for (var i = 0; i < 200; i++) {
-      for (var j = 0; j < 200; j++) {
+    for (var i = 0; i < 100; i++) {
+      for (var j = 0; j < 100; j++) {
         var pixelData = {
           rowNum: i,
           colNum: j,
