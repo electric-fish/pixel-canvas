@@ -66,6 +66,10 @@ class CanvasInterface extends React.Component {
     x = Math.floor(x / ratio);
     y = Math.floor(y / ratio);
     console.log("x: " + x + " y: " + y);
+    
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    this.props.postPixelHandler(y, x);
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     var ctx = canvas.getContext('2d');
     var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
