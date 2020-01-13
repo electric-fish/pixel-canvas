@@ -7,11 +7,9 @@ const collection_name = 'canvas'
 const models = {
 
   getCanvas: () => {
-
     return new Promise((resolve, reject) => {
       const db = client.db(db_name);
-      const collection = db.collection(collection_name);
-  
+
       db.collection(collection_name).find({}).toArray()
         .then((result) => {
           resolve(result);
@@ -19,10 +17,23 @@ const models = {
         .catch((err) => {
           console.log(err);
         });
-      
     });
+  },
 
-  }
+  postPixel: (pixelData) => {
+    return new Promise((resolve, reject) => {
+      const db = client.db(db_name);
+      const collection = db.collection(collection_name);
+
+      db.collection(collection_name).updateOne({ rowNum: pixelData.rowNum, colNum: pixelData.colNum }, { $set: pixelData }, { upsert: true })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  },
 
 };
 
