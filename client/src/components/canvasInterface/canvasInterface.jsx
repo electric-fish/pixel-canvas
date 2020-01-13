@@ -156,7 +156,7 @@ class CanvasInterface extends React.Component {
           <canvas className={styles.canvas} id="canvas" width={N} height={N} onWheel={this.zoomHandler} onClick={this.clickHandler} onPointerMove={this.hoverHandler} onDrag={this.dragHandler}><p>Please update to a browser that supports canvas.</p></canvas>
         </div>
         {this.state.mouseOnCanvas &&
-          <div>
+          <div className={styles.edit_info}>
             <p>Last Edited By: {this.state.cursor_lastEditedBy}<br />
             Last Edited At: {moment(this.state.cursor_lastEditedAt).format('MMMM Do YYYY, h:mm:ss A')}</p>
           </div>
