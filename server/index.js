@@ -14,6 +14,10 @@ app.get('/api/canvas', (req, res) => {
   controllers.getCanvas(req, res);
 });
 
+app.post('/api/canvas', (req, res) => {
+  controllers.putPixel(req, res);
+});
+
 if (!module.parent) {
   app.listen(app.get('port'));
   console.log('Listening on:', app.get('port'));

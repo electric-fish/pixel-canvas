@@ -13,7 +13,12 @@ const controllers = {
         res.status(400).send(err);
       });
 
-  }
+  },
+
+  putPixel: (req, res) => {
+
+  },
+  
 };
 
 module.exports = controllers;
