@@ -18,13 +18,16 @@ class CanvasInterface extends React.Component {
       cursor_lastEditedAt: '',
       cursor_lastEditedBy: '',
       mouseOnCanvas: false,
+      zoomedIn: false,
+      zoomedInRowNum: 3,
+      zoomedInColNum: 1,
     }
     this.getCanvas = this.getCanvas.bind(this);
     this.updateCanvas = this.updateCanvas.bind(this);
     this.zoomHandler = this.zoomHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
     this.hoverHandler = this.hoverHandler.bind(this);
-    this.dragHandler = this.dragHandler.bind(this);
+    this.dragStart = this.dragStart.bind(this);
     this.mouseEnterLeaveHandler = this.mouseEnterLeaveHandler.bind(this);
   }
 
@@ -95,15 +98,28 @@ class CanvasInterface extends React.Component {
   }
 
   zoomHandler(event) {
-    if (event.deltaY > 0) { //scroll down -> zoom in
-      // console.log(document.getElementById("canvas").style.width);
-      // document.getElementById("canvas").style.width = '500px';
-      // document.getElementById("canvas").style.height = '500px';
-      console.log('zoom in');
-    } else { //scroll up -> zoom out
-      // document.getElementById("canvas").style.width = '400px';
-      // document.getElementById("canvas").style.height = '400px';
+    if (event.deltaY > 0) { //scroll down
       console.log('zoom out');
+      if (this.state.zoomedIn) {
+        this.setState({
+          zoomedIn: false,
+          zoomedInRowNum: 0,
+          zoomedInColNum: 0,
+        });
+        var canvas = document.getElementById("canvas");
+        canvas.width *= 2;
+        canvas.height *= 2;
+      }
+    } else { //scroll up
+      console.log('zoom in');
+      if (!this.state.zoomedIn) {
+        this.setState({
+          zoomedIn: true
+        });
+        var canvas = document.getElementById("canvas");
+        canvas.width /= 2;
+        canvas.height /= 2;
+      }
     }
   }
 
@@ -118,22 +134,39 @@ class CanvasInterface extends React.Component {
   }
 
   hoverHandler () {
-    var canvas = document.getElementById('canvas');
-    var rect = canvas.getBoundingClientRect();
-    var rowNum = event.clientY - rect.top;
-    var colNum = event.clientX - rect.left;
-    // console.log(rowNum + ', ' + colNum);
-    rowNum = (rowNum > 0) ? Math.floor(rowNum / ratio) : 0;
-    colNum = (colNum > 0) ? Math.floor(colNum / ratio) : 0;
-    this.setState({
-      cursor_rowNum: rowNum,
-      cursor_colNum: colNum,
-      cursor_lastEditedBy: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedBy,
-      cursor_lastEditedAt: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedAt,
-    }); 
+    if (!this.state.zoomedIn) {
+      var canvas = document.getElementById('canvas');
+      var rect = canvas.getBoundingClientRect();
+      var rowNum = event.clientY - rect.top;
+      var colNum = event.clientX - rect.left;
+      // console.log(rowNum + ', ' + colNum);
+      rowNum = (rowNum > 0) ? Math.floor(rowNum / ratio) : 0;
+      colNum = (colNum > 0) ? Math.floor(colNum / ratio) : 0;
+      this.setState({
+        cursor_rowNum: rowNum,
+        cursor_colNum: colNum,
+        cursor_lastEditedBy: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedBy,
+        cursor_lastEditedAt: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedAt,
+      }); 
+    } else {  //is zoomed in
+      var canvas = document.getElementById('canvas');
+      var rect = canvas.getBoundingClientRect();
+      var rowNum = event.clientY - rect.top;
+      var colNum = event.clientX - rect.left;
+      // console.log(rowNum + ', ' + colNum);
+      rowNum = (rowNum > 0) ? Math.floor(rowNum / ratio) : 0;
+      colNum = (colNum > 0) ? Math.floor(colNum / ratio) : 0;
+      this.setState({
+        cursor_rowNum: rowNum,
+        cursor_colNum: colNum,
+        cursor_lastEditedBy: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedBy,
+        cursor_lastEditedAt: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedAt,
+      }); 
+    }
+
   }
 
-  dragHandler (event) {
+  dragStart (event) {
     console.log(event);
   }
 
@@ -148,12 +181,17 @@ class CanvasInterface extends React.Component {
       });
     }
   }
+  //, onDrop, onDragOver, and onDragEnd={this.dragHandler}
 
   render() {
     return (
       <div className={styles.canvas_interface}>
         <div className={styles.canvas_container} onMouseEnter={() => this.mouseEnterLeaveHandler(true)} onMouseLeave={() => this.mouseEnterLeaveHandler(false)}>
-          <canvas className={styles.canvas} id="canvas" width={N} height={N} onWheel={this.zoomHandler} onClick={this.clickHandler} onPointerMove={this.hoverHandler} onDrag={this.dragHandler}><p>Please update to a browser that supports canvas.</p></canvas>
+          <canvas className={styles.canvas} id="canvas" width={N} height={N}
+                  onWheel={this.zoomHandler} onClick={this.clickHandler} onPointerMove={this.hoverHandler}
+                  draggable="true" onDragStart={this.dragStart}>
+            <p>Please update to a browser that supports canvas.</p>
+          </canvas>
         </div>
         {this.state.mouseOnCanvas &&
           <div className={styles.edit_info}>

@@ -73,7 +73,7 @@ class PixelCanvas extends React.Component {
       this.setState({
         onCooldown: false
       });
-    }, 3000); // 5 second timer
+    }, 3000); // 3 second timer
   }
 
   render() {
