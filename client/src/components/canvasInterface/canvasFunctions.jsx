@@ -18,7 +18,7 @@ export const canvasFunctions = {
           return 4;
           break;
         case '5':
-          return 0;
+          return 5;
           break;
         case '6':
           return 6;
@@ -61,7 +61,7 @@ export const canvasFunctions = {
       G_channel: translateHex(colorHex[3]) * 16 + translateHex(colorHex[4]),
       B_channel: translateHex(colorHex[5]) * 16 + translateHex(colorHex[5]),
     }
-    console.log(RGBA);
+    // console.log(RGBA);
 
     return RGBA;
   }

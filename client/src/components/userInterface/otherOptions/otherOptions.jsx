@@ -6,6 +6,7 @@ import FishIcon from './icons/fishIcon.jsx';
 const OtherOptions = (props) => {
   return (
     <div>
+      <hr className={styles.hr} />
       <button className={styles.button}>Save Image</button>
       <div className={styles.fish_icon}>
         <FishIcon />
