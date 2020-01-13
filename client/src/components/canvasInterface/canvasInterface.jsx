@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from "./canvasInterface.css";
+import moment from 'moment';
 
 import { canvasFunctions } from "./canvasFunctions.jsx";
 
@@ -12,11 +13,19 @@ class CanvasInterface extends React.Component {
     super(props);
     this.state = {
       canvas_data: [],
+      cursor_rowNum: 0,
+      cursor_colNum: 0,
+      cursor_lastEditedAt: '',
+      cursor_lastEditedBy: '',
+      mouseOnCanvas: false,
     }
     this.getCanvas = this.getCanvas.bind(this);
     this.updateCanvas = this.updateCanvas.bind(this);
     this.zoomHandler = this.zoomHandler.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.hoverHandler = this.hoverHandler.bind(this);
+    this.dragHandler = this.dragHandler.bind(this);
+    this.mouseEnterLeaveHandler = this.mouseEnterLeaveHandler.bind(this);
   }
 
   getCanvas() {
@@ -75,6 +84,14 @@ class CanvasInterface extends React.Component {
     setCanvas(data);
 
     this.updateCanvas();
+    this.interval = setInterval(() => {
+      this.updateCanvas();
+    }, 1000);
+
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   zoomHandler(event) {
@@ -91,41 +108,64 @@ class CanvasInterface extends React.Component {
   }
 
   clickHandler(event) {
-
-    // console.log(canvasFunctions);
     const RGBA = canvasFunctions.hexToRGBA(this.props.colorHex);
     console.log(this.props.colorHex);
     console.log(RGBA);
 
     var canvas = document.getElementById('canvas');
+    this.props.postPixelHandler(this.state.cursor_rowNum, this.state.cursor_colNum);
+    this.updateCanvas();
+  }
+
+  hoverHandler () {
+    var canvas = document.getElementById('canvas');
     var rect = canvas.getBoundingClientRect();
-    var x = event.clientX - rect.left;
-    var y = event.clientY - rect.top;
-    console.log("x: " + x + " y: " + y);
+    var rowNum = event.clientY - rect.top;
+    var colNum = event.clientX - rect.left;
+    // console.log(rowNum + ', ' + colNum);
+    rowNum = (rowNum > 0) ? Math.floor(rowNum / ratio) : 0;
+    colNum = (colNum > 0) ? Math.floor(colNum / ratio) : 0;
+    this.setState({
+      cursor_rowNum: rowNum,
+      cursor_colNum: colNum,
+      cursor_lastEditedBy: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedBy,
+      cursor_lastEditedAt: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedAt,
+    }); 
+  }
 
-    // get coordinates
-    x = Math.floor(x / ratio);
-    y = Math.floor(y / ratio);
-    console.log("x: " + x + " y: " + y);
+  dragHandler (event) {
+    console.log(event);
+  }
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    this.props.postPixelHandler(y, x);
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    var ctx = canvas.getContext('2d');
-    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    var data = imageData.data;
-    imageData.data[(y * N + x) * 4 + 0] = RGBA.R_channel;
-    imageData.data[(y * N + x) * 4 + 1] = RGBA.G_channel;
-    imageData.data[(y * N + x) * 4 + 2] = RGBA.B_channel;
-    imageData.data[(y * N + x) * 4 + 3] = 255;
-    ctx.putImageData(imageData, 0, 0);
+  mouseEnterLeaveHandler (action) {
+    if (action) {
+      this.setState({
+        mouseOnCanvas: true
+      });
+    } else {
+      this.setState({
+        mouseOnCanvas: false
+      });
+    }
   }
 
   render() {
     return (
       <div className={styles.canvas_interface}>
-        <canvas className={styles.canvas} id="canvas" width={N} height={N} onWheel={this.zoomHandler} onClick={this.clickHandler}><p>Please update to a browser that supports canvas.</p></canvas>
+        <div className={styles.canvas_container} onMouseEnter={() => this.mouseEnterLeaveHandler(true)} onMouseLeave={() => this.mouseEnterLeaveHandler(false)}>
+          <canvas className={styles.canvas} id="canvas" width={N} height={N} onWheel={this.zoomHandler} onClick={this.clickHandler} onPointerMove={this.hoverHandler} onDrag={this.dragHandler}><p>Please update to a browser that supports canvas.</p></canvas>
+        </div>
+        {this.state.mouseOnCanvas &&
+          <div>
+            <p>Last Edited By: {this.state.cursor_lastEditedBy}<br />
+            Last Edited At: {moment(this.state.cursor_lastEditedAt).format('MMMM Do YYYY, h:mm:ss A')}</p>
+          </div>
+        }
+        {this.state.mouseOnCanvas &&
+          <div className={styles.coordinates}>
+            <p>({this.state.cursor_rowNum},{this.state.cursor_colNum})</p>
+          </div>
+        }
       </div>
     );
   }
