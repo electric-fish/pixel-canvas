@@ -50,6 +50,8 @@ class CanvasInterface extends React.Component {
   clickHandler (event) {
     // console.log(canvasFunctions);
     const RGBA = canvasFunctions.hexToRBGA(this.props.colorHex);
+    console.log(this.props.colorHex);
+    console.log(RGBA);
 
     var canvas = document.getElementById('canvas');
     var rect = canvas.getBoundingClientRect();    

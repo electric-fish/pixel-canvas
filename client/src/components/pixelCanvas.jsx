@@ -10,7 +10,7 @@ class PixelCanvas extends React.Component {
     super(props);
     this.state = {
       canvas_data: [],
-      userName: 'Fish',
+      userName: 'unknown-user',
       color: '#607d8b',
     }
     this.changeUserName = this.changeUserName.bind(this);

@@ -18,7 +18,7 @@ export const canvasFunctions = {
           return 4;
           break;
         case '5':
-          return 0;
+          return 5;
           break;
         case '6':
           return 6;

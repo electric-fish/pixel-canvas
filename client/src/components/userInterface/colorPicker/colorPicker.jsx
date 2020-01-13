@@ -36,7 +36,6 @@ class ColorPicker extends React.Component {
                   "#FAFAFA", "#CCCCCC", "#999999", "#666666", "#333333", "#000000"]}
           color={ this.state.background }
           onChangeComplete={ this.handleChangeComplete }
-          background={ "#555500" }
         />
       </div>
     );
