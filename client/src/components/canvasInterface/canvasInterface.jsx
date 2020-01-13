@@ -28,6 +28,7 @@ class CanvasInterface extends React.Component {
     this.clickHandler = this.clickHandler.bind(this);
     this.hoverHandler = this.hoverHandler.bind(this);
     this.dragStart = this.dragStart.bind(this);
+    this.dragEnd = this.dragEnd.bind(this);
     this.mouseEnterLeaveHandler = this.mouseEnterLeaveHandler.bind(this);
   }
 
@@ -99,7 +100,7 @@ class CanvasInterface extends React.Component {
 
   zoomHandler(event) {
     if (event.deltaY > 0) { //scroll down
-      console.log('zoom out');
+      // console.log('zoom out');
       if (this.state.zoomedIn) {
         this.setState({
           zoomedIn: false,
@@ -111,7 +112,7 @@ class CanvasInterface extends React.Component {
         canvas.height *= 2;
       }
     } else { //scroll up
-      console.log('zoom in');
+      // console.log('zoom in');
       if (!this.state.zoomedIn) {
         this.setState({
           zoomedIn: true
@@ -119,6 +120,20 @@ class CanvasInterface extends React.Component {
         var canvas = document.getElementById("canvas");
         canvas.width /= 2;
         canvas.height /= 2;
+
+        var ctx = canvas.getContext('2d');
+        // ctx.translate(canvas.width / 2,canvas.height / 2);
+        var imageData = ctx.getImageData(25, 25, 50, 50);
+        ctx.drawImage(imageData, 0, 0);
+        // // ctx.moveTo(-119, -20);
+        // ctx.save();
+        // // ctx.translate(50, 50);
+        // ctx.translate(canvas.width/2,canvas.height/2);
+        // ctx.rotate(degrees*Math.PI/180);
+        // ctx.drawImage(image,-image.width/2,-image.width/2);
+        // ctx.restore();
+
+
       }
     }
   }
@@ -134,7 +149,7 @@ class CanvasInterface extends React.Component {
   }
 
   hoverHandler () {
-    if (!this.state.zoomedIn) {
+    if (!this.state.zoomedIn) { // is zoomed out
       var canvas = document.getElementById('canvas');
       var rect = canvas.getBoundingClientRect();
       var rowNum = event.clientY - rect.top;
@@ -148,12 +163,12 @@ class CanvasInterface extends React.Component {
         cursor_lastEditedBy: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedBy,
         cursor_lastEditedAt: this.state.canvas_data[this.state.cursor_rowNum * N + this.state.cursor_colNum].lastEditedAt,
       }); 
-    } else {  //is zoomed in
+    } else {  // is zoomed in
       var canvas = document.getElementById('canvas');
       var rect = canvas.getBoundingClientRect();
       var rowNum = event.clientY - rect.top;
       var colNum = event.clientX - rect.left;
-      console.log(rowNum + ', ' + colNum);
+      // console.log(rowNum + ', ' + colNum);
       rowNum = (rowNum > 0) ? Math.floor(rowNum / 16) + this.state.zoomedInRowNum : 0;
       colNum = (colNum > 0) ? Math.floor(colNum / 16) + this.state.zoomedInColNum : 0;
       this.setState({
@@ -170,6 +185,10 @@ class CanvasInterface extends React.Component {
     console.log(event);
   }
 
+  dragEnd (event) {
+    console.log(event);
+  }
+
   mouseEnterLeaveHandler (action) {
     if (action) {
       this.setState({
@@ -181,7 +200,6 @@ class CanvasInterface extends React.Component {
       });
     }
   }
-  //, onDrop, onDragOver, and onDragEnd={this.dragHandler}
 
   render() {
     return (
@@ -189,7 +207,7 @@ class CanvasInterface extends React.Component {
         <div className={styles.canvas_container} onMouseEnter={() => this.mouseEnterLeaveHandler(true)} onMouseLeave={() => this.mouseEnterLeaveHandler(false)}>
           <canvas className={styles.canvas} id="canvas" width={N} height={N}
                   onWheel={this.zoomHandler} onClick={this.clickHandler} onPointerMove={this.hoverHandler}
-                  draggable="true" onDragStart={this.dragStart}>
+                  draggable="true" onDragStart={this.dragStart} onDragEnd={this.dragEnd}>
             <p>Please update to a browser that supports canvas.</p>
           </canvas>
         </div>
