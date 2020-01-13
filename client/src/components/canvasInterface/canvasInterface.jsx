@@ -48,7 +48,7 @@ class CanvasInterface extends React.Component {
     this.getCanvas()
       .then(() => {
         var newData = canvasFunctions.rawDataToImageData(this.state.canvas_data);
-        console.log(newData);
+        // console.log(newData);
         var ctx = document.getElementById('canvas').getContext('2d');
         var newImageData = new ImageData(N, N);
         for (var i = 0; i < newData.length; i++) {
@@ -125,7 +125,7 @@ class CanvasInterface extends React.Component {
   render() {
     return (
       <div className={styles.canvas_interface}>
-        <canvas className={styles.canvas} id="canvas" width={N} height={N} onWheel={this.zoomHandler} onClick={this.clickHandler}></canvas>
+        <canvas className={styles.canvas} id="canvas" width={N} height={N} onWheel={this.zoomHandler} onClick={this.clickHandler}><p>Please update to a browser that supports canvas.</p></canvas>
       </div>
     );
   }
