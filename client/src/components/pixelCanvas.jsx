@@ -3,7 +3,7 @@ import styles from "./pixelCanvas.css";
 
 import CanvasInterface from "./canvasInterface/canvasInterface.jsx";
 import UserInterface from "./userInterface/userInterface.jsx";
-// const server_url = 'http://localhost:3000/';
+const server_url = 'http://localhost:3000';
 
 class PixelCanvas extends React.Component {
   constructor (props) {
@@ -18,6 +18,23 @@ class PixelCanvas extends React.Component {
   }
 
   componentDidMount () {
+
+    fetch(server_url + '/api/canvas', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      console.log(result);
+    });
+
   }
 
   changeUserName (name) {
