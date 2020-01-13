@@ -35,7 +35,7 @@ class CanvasInterface extends React.Component {
           return response.json();
         })
         .then((result) => {
-          console.log(result);
+          // console.log(result);
           this.setState({
             canvas_data: result
           });
