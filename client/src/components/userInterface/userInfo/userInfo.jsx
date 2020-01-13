@@ -24,6 +24,8 @@ class UserInfo extends React.Component {
       alert('Please enter a display name.');
     } else if (userName.value.indexOf(' ') >= 0) {
       alert('No spaces allowed in display name.');
+    } else if (userName.value.length > 16) {
+      alert('Display names must be under 16 characters.');
     } else {
       this.setState({
         username: userName.value

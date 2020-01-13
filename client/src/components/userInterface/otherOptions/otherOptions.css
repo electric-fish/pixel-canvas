@@ -8,7 +8,7 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  text-decoration: line-through;
+  /* text-decoration: line-through; */
 }
 
 .button:hover {
