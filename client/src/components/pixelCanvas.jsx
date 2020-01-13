@@ -10,7 +10,6 @@ class PixelCanvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      canvas_data: [],
       userName: 'unknown-user',
       color: '#607d8b',
     }
@@ -20,23 +19,6 @@ class PixelCanvas extends React.Component {
   }
 
   componentDidMount() {
-
-    fetch(server_url + '/api/canvas', {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .catch((err) => {
-        console.error(err);
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        console.log(result);
-      });
-
   }
 
   changeUserName(name) {
@@ -55,7 +37,7 @@ class PixelCanvas extends React.Component {
     var pixelData = {
       rowNum: rowNum,
       colNum: colNum,
-      RBGA_channels: canvasFunctions.hexToRBGA(this.state.color),
+      RGBA_channels: canvasFunctions.hexToRGBAArray(this.state.color),
       lastEditedBy: this.state.userName,
       lastEditedAt: new Date()
     }
@@ -86,7 +68,7 @@ class PixelCanvas extends React.Component {
             <p className={styles.description_text}>Pick a pixel. Place a pixel. Defend your pixel. Do (not) fight over pixels.</p>
           </div>
           <div className={styles.canvas}>
-            <CanvasInterface data={this.state.canvas_data} colorHex={this.state.color} postPixelHandler={this.postPixelHandler} />
+            <CanvasInterface colorHex={this.state.color} postPixelHandler={this.postPixelHandler} />
           </div>
         </div>
       </div>
