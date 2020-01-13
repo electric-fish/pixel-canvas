@@ -19,8 +19,8 @@ class CanvasInterface extends React.Component {
       cursor_lastEditedBy: '',
       mouseOnCanvas: false,
       zoomedIn: false,
-      zoomedInRowNum: 3,
-      zoomedInColNum: 1,
+      zoomedInRowNum: 0,
+      zoomedInColNum: 0,
     }
     this.getCanvas = this.getCanvas.bind(this);
     this.updateCanvas = this.updateCanvas.bind(this);
@@ -153,9 +153,9 @@ class CanvasInterface extends React.Component {
       var rect = canvas.getBoundingClientRect();
       var rowNum = event.clientY - rect.top;
       var colNum = event.clientX - rect.left;
-      // console.log(rowNum + ', ' + colNum);
-      rowNum = (rowNum > 0) ? Math.floor(rowNum / ratio) : 0;
-      colNum = (colNum > 0) ? Math.floor(colNum / ratio) : 0;
+      console.log(rowNum + ', ' + colNum);
+      rowNum = (rowNum > 0) ? Math.floor(rowNum / 16) + this.state.zoomedInRowNum : 0;
+      colNum = (colNum > 0) ? Math.floor(colNum / 16) + this.state.zoomedInColNum : 0;
       this.setState({
         cursor_rowNum: rowNum,
         cursor_colNum: colNum,
