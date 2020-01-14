@@ -1,7 +1,8 @@
 .canvas_interface {
   background-color: #232323;
   color: #f5f5f5;
-  font-family: 'Roboto Mono', monospace;
+  /* font-family: 'Roboto Mono', monospace; */
+  font-family: 'Share Tech Mono', monospace;
 
   width: 100%;
   height: 100%;
@@ -17,6 +18,18 @@
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  cursor: crosshair;
+}
+
+.canvas_container_drag {
+  background-color: rgba(20, 20, 80, 50);
+  width: 800px;
+  height: 800px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: grab;
 }
 
 .canvas {
@@ -37,6 +50,19 @@
   position: absolute;
   right: 0px;
   top: 5px;
+  padding: 0px 5px 0px 5px;
+  background-color: rgba(50, 50, 50, 0.5);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.edit_info {
+  /* visibility: hidden; */
+  display: block;
+  float: right;  
+  z-index: 3;
+  position: absolute;
+  right: 0px;
+  bottom: 5px;
   padding: 0px 5px 0px 5px;
   background-color: rgba(50, 50, 50, 0.5);
   font-family: 'Share Tech Mono', monospace;

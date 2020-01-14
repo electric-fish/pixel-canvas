@@ -18,6 +18,10 @@
   /* background-color: #333333; */
 }
 
+.timer {
+  grid-area: timer;
+}
+
 .color_picker {
   grid-area: color_picker;
   /* background-color: #31380c; */
@@ -43,10 +47,11 @@
   /* grid-template-rows: min-content auto min-content; */
   /* grid-template-rows: 1.5fr 1.5fr 6fr 1fr; */
   /* grid-template-rows: min-content 2fr 6fr 2fr; */
-  grid-template-rows: min-content min-content auto min-content;
+  grid-template-rows: min-content min-content auto min-content min-content;
 	grid-template-areas:
     "title"
     "user_info"
     "color_picker"
+    "timer"
     "other_options";
 }
