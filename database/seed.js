@@ -60,7 +60,45 @@ client.connect((err) => {
       return db.collection(collection_name).updateOne({ _id: 1 }, { $set: totalData }, { upsert: true });
     })
     .then(() => {
-      console.log('Seeding complete.')
+      console.log('Seeding part A complete.');
+
+      jpegData = fs.readFileSync(path.resolve(__dirname, './1.jpg'));
+      rawImageData = jpeg.decode(jpegData, true);
+      canvasData = [];
+      generateCanvas();
+    
+      const importBar = new cliProgress.SingleBar({format: '{bar} {percentage}% | Duration: {duration_formatted} | {value}/{total}'}, cliProgress.Presets.shades_classic);
+      importBar.start(200, 0);
+      var currentRow = 0;
+    
+      console.log("\n");  
+      canvasData.reduce((accumulator, item, index) => {
+    
+        return accumulator.then(() => {
+          return db.collection('canvas').updateOne({rowNum: item.rowNum, colNum: item.colNum}, {$set: item}, {upsert: true});
+        }).then(() => {
+          if (item.rowNum !== currentRow) {
+            importBar.increment(1);
+            currentRow = item.rowNum;
+          }
+        }).catch((err) => {
+          console.error(err);
+        });
+    
+      }, Promise.resolve()).then(() => {
+    
+        importBar.stop();
+        console.log('Seeding part B complete.');
+    
+        db.collection('canvas').createIndex({ rowNum: 1 })
+        .then(() => {
+          console.log('Index thing complete.')
+          client.close();
+        });
+    
+      });
+
+
     });
 
 
