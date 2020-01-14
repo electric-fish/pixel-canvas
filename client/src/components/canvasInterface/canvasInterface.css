@@ -18,6 +18,18 @@
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  cursor: crosshair;
+}
+
+.canvas_container_drag {
+  background-color: rgba(20, 20, 80, 50);
+  width: 800px;
+  height: 800px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: grab;
 }
 
 .canvas {
