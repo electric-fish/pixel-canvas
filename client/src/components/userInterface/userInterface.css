@@ -29,7 +29,17 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  height: 100px;
   /* margin: auto; */
+}
+
+.menu {
+  grid-area: menu;
+  /* background-color: #090d31; */
+  margin-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .other_options {
@@ -47,11 +57,12 @@
   /* grid-template-rows: min-content auto min-content; */
   /* grid-template-rows: 1.5fr 1.5fr 6fr 1fr; */
   /* grid-template-rows: min-content 2fr 6fr 2fr; */
-  grid-template-rows: min-content min-content auto min-content min-content;
+  grid-template-rows: min-content min-content auto min-content min-content min-content;
 	grid-template-areas:
     "title"
     "user_info"
     "color_picker"
     "timer"
+    "menu"
     "other_options";
 }

@@ -36,27 +36,55 @@ class CanvasInterface extends React.Component {
   }
 
   getCanvas() {
-    return new Promise((resolve, reject) => {
-      fetch(server_url + '/api/canvas', {
-        method: 'GET',
-        headers: {
-          'content-type': 'application/json'
-        }
-      })
-        .catch((err) => {
-          console.error(err);
-          reject(err);
+
+    if (this.props.currCanvas === 0 || this.props.currCanvas === '0') {
+      return new Promise((resolve, reject) => {
+        fetch(server_url + '/api/canvas', {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          }
         })
-        .then((response) => {
-          return response.json();
-        })
-        .then((result) => {
-          this.setState({
-            canvas_data: result
+          .catch((err) => {
+            console.error(err);
+            reject(err);
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            this.setState({
+              canvas_data: result
+            });
+            resolve();
           });
-          resolve();
-        });
-    });
+      });
+    } else {
+      
+      return new Promise((resolve, reject) => {
+        fetch(server_url + '/api/canvasWithId/' + this.props.currCanvas, {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .catch((err) => {
+            console.error(err);
+            reject(err);
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            this.setState({
+              canvas_data: result.data
+            });
+            resolve();
+          });
+      });
+
+    }
+
   }
 
   updateCanvas() {

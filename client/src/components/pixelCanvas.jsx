@@ -13,14 +13,36 @@ class PixelCanvas extends React.Component {
       userName: 'unknown-user',
       color: '#607d8b',
       onCooldown: false,
+      canvasList: [],
+      currCanvas: 0
     }
     this.changeUserName = this.changeUserName.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.postPixelHandler = this.postPixelHandler.bind(this);
     this.runTimer = this.runTimer.bind(this);
+    this.selectCanvas = this.selectCanvas.bind(this);
   }
 
   componentDidMount() {
+    fetch(server_url + '/api/canvaslist', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        console.log(result);
+        this.setState({
+          canvasList: result
+        });
+      });
   }
 
   changeUserName(name) {
@@ -76,17 +98,23 @@ class PixelCanvas extends React.Component {
     }, 3000); // 3 second timer
   }
 
+  selectCanvas (event) {
+    this.setState({
+      currCanvas: event.target.value
+    });
+  }
+
   render() {
     return (
       <div className={styles.pixel_canvas}>
         <div className={styles.container}>
           <div className={styles.user_interface}>
-            <UserInterface userName={this.state.userName} color={this.state.color} onCooldown={this.state.onCooldown} changeUserName={this.changeUserName} changeColor={this.changeColor} />
+            <UserInterface selectCanvas={this.selectCanvas} canvasList={this.state.canvasList} currCanvas={this.state.currCanvas} userName={this.state.userName} color={this.state.color} onCooldown={this.state.onCooldown} changeUserName={this.changeUserName} changeColor={this.changeColor} />
             <h1 className={styles.header}>Pixel Canvas</h1>
             <p className={styles.description_text}>Pick a pixel. Place a pixel. Defend your pixel. Do (not) fight over pixels.</p>
           </div>
           <div className={styles.canvas}>
-            <CanvasInterface colorHex={this.state.color} postPixelHandler={this.postPixelHandler} />
+            <CanvasInterface colorHex={this.state.color} postPixelHandler={this.postPixelHandler} currCanvas={this.state.currCanvas}/>
           </div>
         </div>
       </div>
