@@ -54,6 +54,7 @@ class Timer extends React.Component {
     return (
       <div className={styles.timer}>
         <div>Timer: {this.props.onCooldown ? moment(this.state.timerFace).format(`ss'SS"`) : `00'00"`}</div>
+        <hr className={styles.hr} />
       </div>
     );
   }

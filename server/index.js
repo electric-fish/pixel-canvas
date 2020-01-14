@@ -18,8 +18,20 @@ app.get('/api/canvas', (req, res) => {
   controllers.getCanvas(req, res);
 });
 
+app.get('/api/canvasWithId/:canvasId', (req, res) => {
+  controllers.getCanvasWithId(req, res);
+});
+
+app.get('/api/canvaslist', (req, res) => {
+  controllers.getCanvasList(req, res);
+});
+
 app.post('/api/canvas', (req, res) => {
   controllers.postPixel(req, res);
+});
+
+app.post('/api/canvasWithId/:canvasId', (req, res) => {
+  controllers.postPixelWithId(req, res);
 });
 
 if (!module.parent) {

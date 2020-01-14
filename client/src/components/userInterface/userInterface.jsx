@@ -4,6 +4,7 @@ import styles from "./userInterface.css";
 import UserInfo from "./userInfo/userInfo.jsx";
 import ColorPicker from "./colorPicker/colorPicker.jsx";
 import Timer from "./timer/timer.jsx";
+import Menu from "./menu/menu.jsx";
 import OtherOptions from "./otherOptions/otherOptions.jsx";
 
 const UserInterface = (props) => {
@@ -17,6 +18,7 @@ const UserInterface = (props) => {
       <div className={styles.user_info}><UserInfo userName={props.userName} changeUserName={props.changeUserName} /></div>
       <div className={styles.color_picker}><ColorPicker color={props.color} changeColor={props.changeColor} /></div>
       <div className={styles.timer}><Timer onCooldown={props.onCooldown} /></div>
+      <div className={styles.menu}><Menu currCanvas={props.currCanvas} canvasList={props.canvasList} selectCanvas={props.selectCanvas} /></div>
       <div className={styles.other_options}><OtherOptions /></div>
     </div>
   );
