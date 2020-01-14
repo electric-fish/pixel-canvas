@@ -79,7 +79,7 @@ class CanvasInterface extends React.Component {
           for (var i = 0; i < newData.length; i++) {
             newImageData.data[i] = newData[i];
           }
-          ctx.putImageData(newImageData, -this.state.zoomedInRowNum, -this.state.zoomedInColNum);
+          ctx.putImageData(newImageData, 0 - this.state.zoomedInColNum, 0 - this.state.zoomedInRowNum);
         }
 
       });
@@ -213,8 +213,12 @@ class CanvasInterface extends React.Component {
     var endPos = [this.state.cursor_rowNum, this.state.cursor_colNum];
     var currUpperLeftPos = [this.state.zoomedInRowNum, this.state.zoomedInColNum];
 
+    console.log('start pos: ' + startPos[0] + ',' + startPos[1]);
+    console.log('end pos: ' + endPos[0] + ',' + endPos[1]);
+    console.log('starting upper left pos: ' + currUpperLeftPos[0] + ',' + currUpperLeftPos[1]);
+
     console.log(endPos[0] - startPos[0]); // horizontal; positive down, negative up
-    currUpperLeftPos[0] += Math.floor((endPos[0] - startPos[0] + 1));
+    currUpperLeftPos[0] += Math.floor((endPos[0] - startPos[0]));
     if (currUpperLeftPos[0] > 50) {
       currUpperLeftPos[0] = 50;
     } else if (currUpperLeftPos[0] <= 0) {
@@ -222,16 +226,18 @@ class CanvasInterface extends React.Component {
     }
 
     console.log(endPos[1] - startPos[1]); // horizontal; positive down, negative up
-    currUpperLeftPos[1] += Math.floor((endPos[1] - startPos[1] + 1));
+    currUpperLeftPos[1] += Math.floor((endPos[1] - startPos[1]));
     if (currUpperLeftPos[1] > 50) {
       currUpperLeftPos[1] = 50;
     } else if (currUpperLeftPos[1] <= 0) {
       currUpperLeftPos[1] = 0;
     }
 
+    console.log('ending upper left pos: ' + currUpperLeftPos[0] + ',' + currUpperLeftPos[1]);
+
     this.setState({
-      zoomedInRowNum: currUpperLeftPos[1],
-      zoomedInColNum: currUpperLeftPos[0]
+      zoomedInRowNum: currUpperLeftPos[0],
+      zoomedInColNum: currUpperLeftPos[1]
     });
 
     // if (startPos[0] >= endPos[0] && startPos[1] >= endPos[1]) { // going upper left
@@ -267,7 +273,7 @@ class CanvasInterface extends React.Component {
   render() {
     return (
       <div className={styles.canvas_interface}>
-{/* 
+      {/* 
         { this.state.dragging ?
 
           <div className={styles.canvas_container_drag} onMouseEnter={() => this.mouseEnterLeaveHandler(true)} onMouseLeave={() => this.mouseEnterLeaveHandler(false)}>
